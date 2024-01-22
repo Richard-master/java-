@@ -1,0 +1,32 @@
+package com.thread_pool;
+
+import java.util.concurrent.*;
+
+/**
+ * @Classname
+ * @Description
+ * @Date 2023/9/14 15:02
+ * @Created by
+ */
+public class ThreadPoolTest2 {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService pool = new ThreadPoolExecutor(3,
+                5,
+                8,
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(4),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.CallerRunsPolicy());
+
+        //使用线程处理callable任务
+
+        Future<String> f1 = pool.submit(new MyCallable(100));
+        Future<String> f2 = pool.submit(new MyCallable(200));
+        Future<String> f3 = pool.submit(new MyCallable(300));
+        Future<String> f4 = pool.submit(new MyCallable(400));
+        System.out.println(f1.get());
+        System.out.println(f2.get());
+        System.out.println(f3.get());
+        System.out.println(f4.get());
+    }
+}
